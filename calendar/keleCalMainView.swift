@@ -32,9 +32,11 @@ class KeleCalMainView: UIView, UIScrollViewDelegate {
     
     private var _viewCache = [Int:KeleCalMonthView]()
 
-
     
-    override init(frame: CGRect) {
+    
+    override init() {
+        
+        var frame = CGRectMake(0, 30, 320, 8 * 320 / 7)
         super.init(frame:frame)
         
         
@@ -44,7 +46,7 @@ class KeleCalMainView: UIView, UIScrollViewDelegate {
         // Setup Scroll View.
         _scrollView.contentSize = CGSizeMake(frame.width * 3, frame.height)
         _scrollView.showsHorizontalScrollIndicator = false
-        _scrollView.frame = frame
+        _scrollView.frame = CGRectMake(0, 60, frame.width, frame.height)
         _scrollView.pagingEnabled = true
         _scrollView.delegate = self
         
@@ -69,7 +71,7 @@ class KeleCalMainView: UIView, UIScrollViewDelegate {
         
         //-----------------------------------
         var  xOffset:CGFloat = self.frame.size.width/7.0;
-        var  yOffset:CGFloat = 44.0
+        var  yOffset:CGFloat = 35.0
         
         var weekLabelArray:[UILabel] = []
         for (var i:Int = 0 ; i<7; i++) {

@@ -10,15 +10,13 @@ import UIKit
 
 
 class KeleCalMonthView:UIView{
-    
-    
-    
+        
     override init(frame:CGRect)
     {
         super.init(frame: frame)
         
         
-        self.backgroundColor = UIColor.purpleColor()
+//        self.backgroundColor = UIColor.purpleColor()
 
     }
     
@@ -28,7 +26,7 @@ class KeleCalMonthView:UIView{
     {
         var index = 1
         //每个框大小
-        let size = 40
+        let size = Int(self.frame.size.width / 7.0)
         
         for i in 0...5 {
             for j in 0...6{
@@ -52,6 +50,9 @@ class KeleCalMonthView:UIView{
                     let dayIndex = index - data.startWeek! + 1
                     
                     if data.today == dayIndex {
+                        
+                        
+
                         item!.setDay(dayIndex, today: true)
                     } else {
                         item!.setDay(dayIndex, today: false)

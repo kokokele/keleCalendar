@@ -13,6 +13,10 @@ class KeleCalCellView: UIView
     var _button:UIButton?
     var _dayLabel:UILabel?
     
+    var _marker:KeleDraw!
+    
+    private var _isToday:Bool = false
+
     
     var _day:Int?
         
@@ -22,17 +26,18 @@ class KeleCalCellView: UIView
         // Initialization code
         
         
-//        _button = UIButton.buttonWithType(UIButtonType.Custom)as? UIButton
-//        _button!.frame = CGRectMake(0, 0, frame.size.width, frame.size.height)
-//        _button!.backgroundColor = UIColor.clearColor()
-        //_button!.addTarget(self, action: "buttonAction:", forControlEvents: UIControlEvents.TouchUpInside)
-//        addSubview(_button!)
         
         _dayLabel = UILabel(frame: self.bounds)
         _dayLabel!.textAlignment = NSTextAlignment.Center
         _dayLabel!.font = UIFont(name: "HelveticaNeue-Light" , size: 18.0);
         _dayLabel!.backgroundColor = UIColor.clearColor()
         addSubview(_dayLabel!)
+        
+        
+        _marker = KeleDraw(frame:self.bounds, color: UIColor.grayColor(), _alpha: 1)
+//        _marker.center = CGPointMake(x, y)
+        
+        self.insertSubview(_marker, atIndex: 0)
         
         
         
@@ -48,6 +53,8 @@ class KeleCalCellView: UIView
     
     
     func setDay(day:Int, today:Bool){
+        
+        _isToday = today
         
         _day = day
         

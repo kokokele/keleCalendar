@@ -21,7 +21,7 @@ class ViewController: UIViewController {
         // Do any additional setup after loading the view, typically from a nib.
         //println(cd.monthDateRange(NSDate()))
         
-        kele = KeleCalMainView(frame: CGRectMake(0, 50, 310, 200))
+        kele = KeleCalMainView()
         
         view.addSubview(kele)
     }
