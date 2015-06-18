@@ -10,6 +10,9 @@ import UIKit
 
 
 class KeleCalMonthView:UIView{
+    
+    
+    private var _cache = [Int:KeleCalCellView]()
         
     override init(frame:CGRect)
     {
@@ -31,15 +34,37 @@ class KeleCalMonthView:UIView{
         for i in 0...5 {
             for j in 0...6{
                 
-                var item:KeleCalCellView? =  self.viewWithTag(index) as? KeleCalCellView
+                var item:KeleCalCellView?
                 
-                if item == nil {
+                if  (_cache[index] != nil)
+                {
                     
+                    item = _cache[index]
+                    
+                } else {
                     item = KeleCalCellView(frame: CGRectMake((CGFloat(j * size)), (CGFloat(i * size)), CGFloat(size), CGFloat(size)) )
                     item!.tag = index
                     self.addSubview(item!)
+                    
+                    _cache[index] = item
+                    var item1 = self.viewWithTag(index)
+                    println("item:\(item1)")
 
                 }
+                
+//                var item:KeleCalCellView? =  self.viewWithTag(index) as? KeleCalCellView
+//                
+//                if (item == nil) {
+//                    
+//                    item = KeleCalCellView(frame: CGRectMake((CGFloat(j * size)), (CGFloat(i * size)), CGFloat(size), CGFloat(size)) )
+//                    item!.tag = index
+//                    self.addSubview(item!)
+//                    
+//                    
+//                    var item1 = self.viewWithTag(index)
+//                    println("item:\(item1)")
+//
+//                }
                 
                 if (index < data.startWeek! || index > data.startWeek! + data.totalDays! - 1)
                 {

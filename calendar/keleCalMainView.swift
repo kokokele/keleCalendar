@@ -265,7 +265,8 @@ class KeleCalMainView: UIView, UIScrollViewDelegate {
                 
             } else if i == 1 {
                 
-                view.render(_keleData.currentDay!)
+                view.render(_keleData.currentDay)
+                
             } else {
                 
                 view.render(_keleData.nextDay)

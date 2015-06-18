@@ -42,6 +42,7 @@ class KeleCalCellView: UIView
         
         
         let tapRecognizer = UITapGestureRecognizer(target: self, action: "dayViewTapped")
+        
         self.addGestureRecognizer(tapRecognizer)
     }
     
@@ -57,9 +58,7 @@ class KeleCalCellView: UIView
         _isToday = today
         
         _day = day
-        
-        _dayLabel!.text = ""
-        
+                
         if day == 0 {
             _dayLabel!.text = "";
         } else {
