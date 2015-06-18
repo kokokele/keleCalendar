@@ -33,10 +33,15 @@ class ViewController: UIViewController {
 
     @IBAction func onNextPressed(sender: AnyObject) {
         
-    }
-    @IBAction func onPrePressed(sender: AnyObject) {
+        kele.next()
         
     }
+    @IBAction func onPrePressed(sender: AnyObject) {
+        kele.pre()
+    }
 
+    @IBAction func onTodayPressed(sender: AnyObject) {
+        kele.setToday()
+    }
 }
 

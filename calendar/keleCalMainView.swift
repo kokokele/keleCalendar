@@ -56,11 +56,39 @@ class KeleCalMainView: UIView, UIScrollViewDelegate {
 
     }
     
+    
+    internal func next()
+    {
+        _pageChanged = true
+        _direction = .Left
+        
+        fit()
+    }
+    
+    internal func pre()
+    {
+        _pageChanged = true
+        _direction = .Right
+        fit()
+    }
+    
+    internal func setToday()
+    {
+        _keleData.setToday()
+        
+        
+        renderMonth()
+    }
+    
+    
+    //------------------PRIVATE----------------
+    
     private func initUI(frame:CGRect)
     {
         
         let bounds = UIScreen.mainScreen().bounds
         
+        //----------------设置标题--------------
         _topLabel = UILabel(frame: CGRectMake(0, 0, bounds.width, 30))
         _topLabel?.text = _keleData.getDayStr(_keleData.currentDay)
         
@@ -69,7 +97,7 @@ class KeleCalMainView: UIView, UIScrollViewDelegate {
 
         addSubview(_topLabel!)
         
-        //-----------------------------------
+        //-------------------日历头----------------
         var  xOffset:CGFloat = self.frame.size.width/7.0;
         var  yOffset:CGFloat = 35.0
         
@@ -100,7 +128,7 @@ class KeleCalMainView: UIView, UIScrollViewDelegate {
         
        
         
-        //-------------------------------------
+        //-------------------weeks------------------
         for i in 0...2 {
             let view = KeleCalMonthView(frame: CGRectMake(frame.width * CGFloat(i), 0, frame.width, frame.height))
             _viewCache[i] = view
@@ -177,17 +205,16 @@ class KeleCalMainView: UIView, UIScrollViewDelegate {
         fit()
         
         //println("scrollViewDidEndDecelerating:\(_pageChanged)")
-        self._pageChanged = false
-        self._direction = .None
         
     }
     
-    func fit()
+    private func fit()
     {
         if _pageChanged{
             
             var temp:AnyObject!
             
+            //----------------调整容器顺序-------------
             if _direction == .Left {
                 
                 temp = _viewCache[0]
@@ -207,40 +234,50 @@ class KeleCalMainView: UIView, UIScrollViewDelegate {
                 
             }
             
-            for i in 0...2 {
-                
-                let frame = CGRectMake(_frame.width * CGFloat(i), 0, _frame.width, _frame.height)
-                
-                let view:KeleCalMonthView! = _viewCache[i]
-                view.frame = frame
-                
-                
-                if i == 0 {
-                    
-                    view.render(_keleData.preDay)
-                    
-                } else if i == 1 {
-                    
-                    view.render(_keleData.currentDay!)
-                } else {
-                    
-                    view.render(_keleData.nextDay)
-                }
-                
-                println("tag:\(_viewCache[i]?.tag)=\(_frame.width * CGFloat(i))--\(i)")
-            }
             
-            _scrollView.scrollRectToVisible(CGRectMake(frame.width, 0, frame.width, frame.height), animated:false)
-            
-            self.setTitle()
-            
+            renderMonth()
             
         } else {
            
             
             
         }
-}
+        
+        self._pageChanged = false
+        self._direction = .None
+
+    }
+    
+    
+    private func renderMonth()
+    {
+        for i in 0...2 {
+            
+            let frame = CGRectMake(_frame.width * CGFloat(i), 0, _frame.width, _frame.height)
+            
+            let view:KeleCalMonthView! = _viewCache[i]
+            view.frame = frame
+            
+            
+            if i == 0 {
+                
+                view.render(_keleData.preDay)
+                
+            } else if i == 1 {
+                
+                view.render(_keleData.currentDay!)
+            } else {
+                
+                view.render(_keleData.nextDay)
+            }
+            
+            println("tag:\(_viewCache[i]?.tag)=\(_frame.width * CGFloat(i))--\(i)")
+        }
+        
+        _scrollView.scrollRectToVisible(CGRectMake(frame.width, 0, frame.width, frame.height), animated:false)
+        
+        self.setTitle()
+    }
 
     
 

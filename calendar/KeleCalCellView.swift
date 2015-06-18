@@ -58,6 +58,8 @@ class KeleCalCellView: UIView
         
         _day = day
         
+        _dayLabel!.text = ""
+        
         if day == 0 {
             _dayLabel!.text = "";
         } else {
