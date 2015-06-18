@@ -84,6 +84,12 @@ class KeleData:NSObject
         
         parse(_todayDate!)
     }
+    
+    
+    internal func getDayStr()->String
+    {
+        return String(data.year!) + "年" + String(data.month!) + "月"
+    }
 
     //-------------------PRIVATE---------------------------------
     private func parse(date:NSDate)

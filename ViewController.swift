@@ -13,12 +13,18 @@ class ViewController: UIViewController {
     
     var cd:KeleData = KeleData()
     
+    var kele:KeleCalMainView!
+    
     @IBOutlet weak var nextBtn: UIButton!
     @IBOutlet weak var preBtn: UIButton!
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         //println(cd.monthDateRange(NSDate()))
+        
+        kele = KeleCalMainView(frame: CGRectMake(0, 50, 310, 200))
+        
+        view.addSubview(kele)
     }
 
     override func didReceiveMemoryWarning() {
