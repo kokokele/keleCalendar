@@ -11,7 +11,6 @@ import UIKit
 class ViewController: UIViewController {
 
     
-    var cd:KeleData = KeleData()
     
     var kele:KeleCalMainView!
     
@@ -33,12 +32,10 @@ class ViewController: UIViewController {
     }
 
     @IBAction func onNextPressed(sender: AnyObject) {
-        cd.next()
         
     }
     @IBAction func onPrePressed(sender: AnyObject) {
         
-        cd.pre()
     }
 
 }

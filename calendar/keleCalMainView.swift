@@ -18,15 +18,19 @@ class KeleCalMainView: UIView, UIScrollViewDelegate {
     
     private var _topLabel:UILabel?
     
-    private var _data:KeleData = KeleData()
+    private var _keleData:KeleData = KeleData()
     
     private let _scrollView: UIScrollView!
     
+    private let _frame:CGRect!
     
-    private var _page:Int!
+    
+    private var _page:Int = 1
     private var _pageChanged:Bool =  false
     private var _lastContentOffset:CGFloat = 0
     private var _direction: ScrollDirection = .None
+    
+    private var _viewCache = [Int:KeleCalMonthView]()
 
 
     
@@ -34,7 +38,7 @@ class KeleCalMainView: UIView, UIScrollViewDelegate {
         super.init(frame:frame)
         
         
-        
+        _frame = frame
         _scrollView = UIScrollView(frame:frame)
         
         // Setup Scroll View.
@@ -52,49 +56,29 @@ class KeleCalMainView: UIView, UIScrollViewDelegate {
     
     private func initUI(frame:CGRect)
     {
-        let container:UIView = UIView(frame:frame)
-        
         
         let bounds = UIScreen.mainScreen().bounds
         
         _topLabel = UILabel(frame: CGRectMake(0, 0, bounds.width, 30))
-        _topLabel?.text = _data.getDayStr()
+        _topLabel?.text = _keleData.getDayStr()
         
         _topLabel?.textColor = UIColor.redColor()
         _topLabel?.textAlignment = NSTextAlignment.Center
 
         addSubview(_topLabel!)
         
-        let data = _data.data
-        var index = 1
-        let size = 100
-        for i in 0...5 {
-            for j in 0...6{
-                
-               let item = KeleCalCellView(frame: CGRectMake((CGFloat(j * size)), (CGFloat(i * size)), CGFloat(size), CGFloat(size)) )
-                
-                container.addSubview(item)
-                
-                if (index < data.startWeek! || index > data.startWeek! + data.totalDays! - 1)
-                {
-                    item.setDay(0, today: false)
-                } else {
-                    let dayIndex = index - data.startWeek! + 1
-                    
-                    if data.today == dayIndex {
-                        item.setDay(dayIndex, today: true)
-                    } else {
-                        item.setDay(dayIndex, today: false)
-                    }
-                    
-                }
-                
-                index++
-            }
+        
+        
+        for i in 0...2 {
+            let view = KeleCalMonthView(frame: CGRectMake(frame.width * CGFloat(i), 0, frame.width, frame.height))
+            _viewCache[i] = view
+            view.render(_keleData.data)
+            view.tag = i
+            _keleData.next()
+            _scrollView.addSubview(view)
         }
         
-        
-        _scrollView.addSubview(container)
+        _scrollView.scrollRectToVisible(CGRectMake(frame.width, 0, frame.width, frame.height), animated:false)
 
     }
     
@@ -105,18 +89,21 @@ class KeleCalMainView: UIView, UIScrollViewDelegate {
         
         let width = scrollView.frame.width
         
-        let page = Int(floor((_scrollView.contentOffset.x - width/2) / width) + 1)
+        let page  = Int(floor((_scrollView.contentOffset.x - width/2) / width) + 1)
         if page !=  _page {
+            
             _page = page
             
-            _pageChanged = !_pageChanged
-            
-            if !_pageChanged {
-                _pageChanged = true
+            if !self._pageChanged {
+                
+                self._pageChanged = true
+                
             } else {
-                _pageChanged = false
+                
+                self._pageChanged = false
             }
         }
+        
         
         if _scrollView.contentOffset.y != 0 {
             _scrollView.contentOffset = CGPointMake(_scrollView.contentOffset.x, 0)
@@ -130,16 +117,61 @@ class KeleCalMainView: UIView, UIScrollViewDelegate {
         
         _lastContentOffset = _scrollView.contentOffset.x
         
-        println( _lastContentOffset)
-
     }
     
     func scrollViewWillBeginDragging(scrollView: UIScrollView)
     {
     }
     
-    func scrollViewDidEndDecelerating(scrollView: UIScrollView) {
+    func scrollViewDidEndDecelerating(scrollView: UIScrollView)
+    {
+        fit()
+        
+        //println("scrollViewDidEndDecelerating:\(_pageChanged)")
+        self._pageChanged = false
+        self._direction = .None
+        
     }
+    
+    func fit()
+    {
+        if _pageChanged{
+            
+            var temp:AnyObject!
+            
+            if _direction == .Left {
+                
+                temp = _viewCache[0]
+                _viewCache[0] = _viewCache[1]
+                _viewCache[1] = _viewCache[2]
+                _viewCache[2] = temp as KeleCalMonthView!
+            } else {
+                
+                temp = _viewCache[2]
+                _viewCache[2] = _viewCache[1]
+                _viewCache[1] = _viewCache[0]
+                _viewCache[0] = temp as KeleCalMonthView!
+
+            }
+            
+            for i in 0...2 {
+                
+                let frame = CGRectMake(_frame.width * CGFloat(i), 0, _frame.width, _frame.height)
+                
+                _viewCache[i]?.frame = frame
+                
+                println("tag:\(_viewCache[i]?.tag)=\(_frame.width * CGFloat(i))--\(i)")
+            }
+            
+            _scrollView.scrollRectToVisible(CGRectMake(frame.width, 0, frame.width, frame.height), animated:false)
+            
+            
+        } else {
+           
+            
+            
+        }
+}
 
     
 

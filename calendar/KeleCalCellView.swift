@@ -22,17 +22,28 @@ class KeleCalCellView: UIView
         // Initialization code
         
         
-        _button = UIButton.buttonWithType(UIButtonType.Custom)as? UIButton
-        _button!.frame = CGRectMake(0, 0, frame.size.width, frame.size.height)
-        _button!.backgroundColor = UIColor.clearColor()
-        _button!.addTarget(self, action: "buttonAction:", forControlEvents: UIControlEvents.TouchUpInside)
-        addSubview(_button!)
+//        _button = UIButton.buttonWithType(UIButtonType.Custom)as? UIButton
+//        _button!.frame = CGRectMake(0, 0, frame.size.width, frame.size.height)
+//        _button!.backgroundColor = UIColor.clearColor()
+        //_button!.addTarget(self, action: "buttonAction:", forControlEvents: UIControlEvents.TouchUpInside)
+//        addSubview(_button!)
         
         _dayLabel = UILabel(frame: self.bounds)
         _dayLabel!.textAlignment = NSTextAlignment.Center
         _dayLabel!.font = UIFont(name: "HelveticaNeue-Light" , size: 18.0);
         _dayLabel!.backgroundColor = UIColor.clearColor()
         addSubview(_dayLabel!)
+        
+        
+        
+        let tapRecognizer = UITapGestureRecognizer(target: self, action: "dayViewTapped")
+        self.addGestureRecognizer(tapRecognizer)
+    }
+    
+    func dayViewTapped()
+    {
+        println(String(_day!))
+
     }
     
     
