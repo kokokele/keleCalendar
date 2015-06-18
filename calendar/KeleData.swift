@@ -33,7 +33,9 @@ class KeleData:NSObject
     private var _currentComp:NSDateComponents?
     
     
-    var data:CalData = CalData()
+    var currentDay:CalData!
+    var preDay:CalData!
+    var nextDay:CalData!
     
     class func getIns()->KeleData
     {
@@ -58,44 +60,54 @@ class KeleData:NSObject
     internal func next()
     {
         _currentComp?.month++
-        
-        parse(getDateByComp(_currentComp!))
+        getDay()
     }
     
     internal func pre()
     {
         _currentComp?.month--
-        parse(getDateByComp(_currentComp!))
-
+        getDay()
     }
-    
-    private func getDateByComp(comp:NSDateComponents)->NSDate
-    {
-        let date:NSDate! = self._calendar?.dateFromComponents(comp)
-        
-        return date
-    }
-    
+ 
     
     internal func setToday()
     {
         _todayDate = NSDate()
         _todayComp = dateRange(_todayDate!)
+        _currentComp = _todayComp
         
-        parse(_todayDate!)
+        self.getDay()
     }
     
+    private func getDay()
+    {
+       
+       currentDay =  parse(getDateByComp(_currentComp!))
+        
+        
+        _currentComp?.month--
+        preDay = parse(getDateByComp(_currentComp!))
+        
+        _currentComp?.month = _currentComp!.month + 2
+        nextDay = parse(getDateByComp(_currentComp!))
+        
+        _currentComp?.month--
+    }
+  
     
-    internal func getDayStr()->String
+    
+    internal func getDayStr(data:CalData!)->String
     {
         return String(data.year!) + "年" + String(data.month!) + "月"
     }
 
     //-------------------PRIVATE---------------------------------
-    private func parse(date:NSDate)
+    private func parse(date:NSDate)->CalData!
     {
+        var data:CalData = CalData()
         //当前月和年
         let comp:NSDateComponents = self.dateRange(date)
+        
         data.year = comp.year
         data.month = comp.month
         
@@ -127,7 +139,18 @@ class KeleData:NSObject
         println(data.startWeek)
         println("-------------")
         
+        return data
+        
     }
+    
+    
+    private func getDateByComp(comp:NSDateComponents)->NSDate
+    {
+        let date:NSDate! = self._calendar?.dateFromComponents(comp)
+        
+        return date
+    }
+    
     
     private func dateRange(date: NSDate) -> (NSDateComponents) {
         

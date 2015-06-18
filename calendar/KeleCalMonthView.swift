@@ -18,7 +18,7 @@ class KeleCalMonthView:UIView{
         super.init(frame: frame)
         
         
-        self.backgroundColor = UIColor.brownColor()
+        self.backgroundColor = UIColor.purpleColor()
 
     }
     
