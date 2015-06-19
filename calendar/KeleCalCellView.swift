@@ -8,17 +8,25 @@
 
 import UIKit
 
+@objc protocol KeleCalCellDelegate:NSObjectProtocol{
+    
+    optional func cellPressed(cell:KeleCalCellView, day:Int)
+}
+
 class KeleCalCellView: UIView
 {
-    var _button:UIButton?
-    var _dayLabel:UILabel?
     
-    var _marker:KeleDraw!
+    var delegate:KeleCalCellDelegate?
+    
+    
+    
+    private var _button:UIButton?
+    private var _dayLabel:UILabel?
+    
+    private var _marker:KeleDraw!
     
     private var _isToday:Bool = false
-
-    
-    var _day:Int?
+    private var _day:Int?
         
     
     override init(frame: CGRect) {
@@ -46,9 +54,22 @@ class KeleCalCellView: UIView
         self.addGestureRecognizer(tapRecognizer)
     }
     
+    func clear()
+    {
+        //println("cell clear!")
+        _dayLabel?.backgroundColor = UIColor.clearColor()
+    }
+    
+    func setSelected()
+    {
+        //println("cell setSelected!")
+        _dayLabel?.backgroundColor = UIColor.yellowColor()
+    }
+    
     func dayViewTapped()
     {
-        println(String(_day!))
+        //println(String(_day!))
+        delegate?.cellPressed!(self, day: _day!)
 
     }
     
@@ -73,6 +94,8 @@ class KeleCalCellView: UIView
         }else{
             _dayLabel!.textColor = UIColor.blackColor()
         }
+        
+        self.clear()
     }
 
     
@@ -80,8 +103,4 @@ class KeleCalCellView: UIView
         fatalError("init(coder:) has not been implemented")
     }
     
-    func buttonAction(sender: UIButton)
-    {
-        println(String(_day!))
-    }
 }

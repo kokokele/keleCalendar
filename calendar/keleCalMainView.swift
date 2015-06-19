@@ -16,9 +16,13 @@ enum ScrollDirection {
 
 class KeleCalMainView: UIView, UIScrollViewDelegate {
     
+    
+    var delegate:KeleCalDelegate?
+    
+    
     private var _topLabel:UILabel?
     
-    private var _keleData:KeleData = KeleData()
+    private var _keleData:KeleCalData = KeleCalData()
     
     private let _scrollView: UIScrollView!
     
@@ -52,8 +56,13 @@ class KeleCalMainView: UIView, UIScrollViewDelegate {
         
         addSubview(_scrollView)
         
-        self.initUI(frame)
+        
 
+    }
+    
+    func render()
+    {
+        self.initUI(_frame)
     }
     
     
@@ -133,6 +142,7 @@ class KeleCalMainView: UIView, UIScrollViewDelegate {
             let view = KeleCalMonthView(frame: CGRectMake(frame.width * CGFloat(i), 0, frame.width, frame.height))
             _viewCache[i] = view
             view.tag = i
+            view.delegate = delegate
             _scrollView.addSubview(view)
             
             

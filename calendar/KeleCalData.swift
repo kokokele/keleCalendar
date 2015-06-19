@@ -8,10 +8,10 @@
 
 import UIKit
 
-private var INS:KeleData?
+private var INS:KeleCalData?
 
 
-struct CalData {
+struct CalDataVO {
     var startWeek:Int?
     var totalDays:Int?
     var today:Int? //如果>1 表示当月即今月
@@ -23,7 +23,18 @@ struct CalData {
     }
 }
 
-class KeleData:NSObject
+struct CalDateTimeVO {
+    var year:Int?
+    var month:Int?
+    var day:Int?
+    
+    init()
+    {
+        
+    }
+}
+
+class KeleCalData:NSObject
 {
     private var _calendar: NSCalendar?
     private var _todayDate:NSDate?
@@ -33,15 +44,15 @@ class KeleData:NSObject
     private var _currentComp:NSDateComponents?
     
     
-    var currentDay:CalData!
-    var preDay:CalData!
-    var nextDay:CalData!
+    var currentDay:CalDataVO!
+    var preDay:CalDataVO!
+    var nextDay:CalDataVO!
     
-    class func getIns()->KeleData
+    class func getIns()->KeleCalData
     {
         if (INS == nil)
         {
-            INS = KeleData()
+            INS = KeleCalData()
         }
         
         return INS!
@@ -96,15 +107,15 @@ class KeleData:NSObject
   
     
     
-    internal func getDayStr(data:CalData!)->String
+    internal func getDayStr(data:CalDataVO!)->String
     {
         return String(data.year!) + "年" + String(data.month!) + "月"
     }
 
     //-------------------PRIVATE---------------------------------
-    private func parse(date:NSDate)->CalData!
+    private func parse(date:NSDate)->CalDataVO!
     {
-        var data:CalData = CalData()
+        var data:CalDataVO = CalDataVO()
         //当前月和年
         let comp:NSDateComponents = self.dateRange(date)
         
@@ -132,12 +143,12 @@ class KeleData:NSObject
         }
         
         
-        println(data.year)
-        println(data.month)
-        println(data.today)
-        println(data.totalDays)
-        println(data.startWeek)
-        println("-------------")
+//        println(data.year)
+//        println(data.month)
+//        println(data.today)
+//        println(data.totalDays)
+//        println(data.startWeek)
+//        println("-------------")
         
         return data
         

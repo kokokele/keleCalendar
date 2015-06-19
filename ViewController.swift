@@ -8,11 +8,13 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+class ViewController: UIViewController, KeleCalDelegate {
 
     
     
     var kele:KeleCalMainView!
+    
+    
     
     @IBOutlet weak var nextBtn: UIButton!
     @IBOutlet weak var preBtn: UIButton!
@@ -22,8 +24,19 @@ class ViewController: UIViewController {
         //println(cd.monthDateRange(NSDate()))
         
         kele = KeleCalMainView()
+        kele.delegate = self
+        kele.render()
         
         view.addSubview(kele)
+    }
+    
+    func onCellRender(cell: KeleCalCellView, kdate: CalDateTimeVO) {
+        println("keleMain.onCellRender:\(kdate.year!)-\(kdate.month!)-\(kdate.day!)")
+    }
+    
+    //---delegate
+    func onCellPressed(cell: KeleCalCellView, kdate: CalDateTimeVO) {
+        println("keleMain:\(kdate.year!)-\(kdate.month!)-\(kdate.day!)")
     }
 
     override func didReceiveMemoryWarning() {
