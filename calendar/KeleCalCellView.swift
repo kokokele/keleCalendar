@@ -39,10 +39,13 @@ class KeleCalCellView: UIView
         _dayLabel!.textAlignment = NSTextAlignment.Center
         _dayLabel!.font = UIFont(name: "HelveticaNeue-Light" , size: 18.0);
         _dayLabel!.backgroundColor = UIColor.clearColor()
+        _dayLabel!.tag = 10
         addSubview(_dayLabel!)
+    
         
         
         _marker = KeleDraw(frame:self.bounds, color: UIColor.grayColor(), _alpha: 1)
+        _marker.tag = 20
 //        _marker.center = CGPointMake(x, y)
         
         self.insertSubview(_marker, atIndex: 0)
@@ -58,6 +61,15 @@ class KeleCalCellView: UIView
     {
         //println("cell clear!")
         _dayLabel?.backgroundColor = UIColor.clearColor()
+        
+        
+        for view in self.subviews
+        {
+            if view.tag != 10 && view.tag != 20
+            {
+                view.removeFromSuperview()
+            }
+        }
     }
     
     func setSelected()

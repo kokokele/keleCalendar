@@ -26,9 +26,7 @@ class ViewController: UIViewController, KeleCalDelegate {
         kele = KeleCalMainView()
         kele.delegate = self
         kele.render()
-        
-        view.addSubview(kele)
-        
+        self.view.addSubview(self.kele)
         
     }
     
