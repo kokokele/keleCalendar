@@ -13,10 +13,13 @@ class KeleDraw: UIView {
     private let color: UIColor?
     
     init(frame: CGRect, color: UIColor, _alpha: CGFloat) {
-        super.init(frame: frame)
         
         self.color = color
+        super.init(frame: frame)
         self.alpha = _alpha
+
+        
+        
         
         self.backgroundColor = .clearColor()
     }

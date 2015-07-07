@@ -38,15 +38,15 @@ class KeleCalMainView: UIView, UIScrollViewDelegate {
 
     
     
-    override init() {
+     init() {
         
         var frame = CGRectMake(0, 30, 320, 8 * 320 / 7)
-        super.init(frame:frame)
         
         
         _frame = frame
         _scrollView = UIScrollView(frame:frame)
-        
+        super.init(frame:frame)
+
         // Setup Scroll View.
         _scrollView.contentSize = CGSizeMake(frame.width * 3, frame.height)
         _scrollView.showsHorizontalScrollIndicator = false
@@ -54,7 +54,11 @@ class KeleCalMainView: UIView, UIScrollViewDelegate {
         _scrollView.pagingEnabled = true
         _scrollView.delegate = self
         
+
+        
         addSubview(_scrollView)
+        
+
         
         
 
@@ -230,7 +234,7 @@ class KeleCalMainView: UIView, UIScrollViewDelegate {
                 temp = _viewCache[0]
                 _viewCache[0] = _viewCache[1]
                 _viewCache[1] = _viewCache[2]
-                _viewCache[2] = temp as KeleCalMonthView!
+                _viewCache[2] = temp as! KeleCalMonthView!
                 
                 _keleData.next()
             } else {
@@ -238,7 +242,7 @@ class KeleCalMainView: UIView, UIScrollViewDelegate {
                 temp = _viewCache[2]
                 _viewCache[2] = _viewCache[1]
                 _viewCache[1] = _viewCache[0]
-                _viewCache[0] = temp as KeleCalMonthView!
+                _viewCache[0] = temp as! KeleCalMonthView!
                 
                 _keleData.pre()
                 
