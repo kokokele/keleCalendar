@@ -31,7 +31,7 @@ class ViewController: UIViewController, KeleCalDelegate {
     }
     
     func onCellRender(cell: KeleCalCellView, kdate: CalDateTimeVO) {
-        println("keleMain.onCellRender:\(kdate.year!)-\(kdate.month!)-\(kdate.day!)")
+        //println("keleMain.onCellRender:\(kdate.year!)-\(kdate.month!)-\(kdate.day!)")
         
         
         if kdate.month! == 6 && kdate.day! == 11

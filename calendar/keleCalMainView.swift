@@ -181,6 +181,7 @@ class KeleCalMainView: UIView, UIScrollViewDelegate {
         let width = scrollView.frame.width
         
         let page  = Int(floor((_scrollView.contentOffset.x - width/2) / width) + 1)
+        
         if page !=  _page {
             
             _page = page
@@ -231,18 +232,10 @@ class KeleCalMainView: UIView, UIScrollViewDelegate {
             //----------------调整容器顺序-------------
             if _direction == .Left {
                 
-                temp = _viewCache[0]
-                _viewCache[0] = _viewCache[1]
-                _viewCache[1] = _viewCache[2]
-                _viewCache[2] = temp as! KeleCalMonthView!
+
                 
                 _keleData.next()
             } else {
-                
-                temp = _viewCache[2]
-                _viewCache[2] = _viewCache[1]
-                _viewCache[1] = _viewCache[0]
-                _viewCache[0] = temp as! KeleCalMonthView!
                 
                 _keleData.pre()
                 
@@ -267,10 +260,10 @@ class KeleCalMainView: UIView, UIScrollViewDelegate {
     {
         for i in 0...2 {
             
-            let frame = CGRectMake(_frame.width * CGFloat(i), 0, _frame.width, _frame.height)
+            //let frame = CGRectMake(_frame.width * CGFloat(i), 0, _frame.width, _frame.height)
             
             let view:KeleCalMonthView! = _viewCache[i]
-            view.frame = frame
+            //view.frame = frame
             
             
             if i == 0 {
@@ -286,7 +279,7 @@ class KeleCalMainView: UIView, UIScrollViewDelegate {
                 view.render(_keleData.nextDay)
             }
             
-            println("tag:\(_viewCache[i]?.tag)=\(_frame.width * CGFloat(i))--\(i)")
+            //println("tag:\(_viewCache[i]?.tag)=\(_frame.width * CGFloat(i))--\(i)")
         }
         
         _scrollView.scrollRectToVisible(CGRectMake(frame.width, 0, frame.width, frame.height), animated:false)
